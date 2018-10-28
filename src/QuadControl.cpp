@@ -225,7 +225,12 @@ V3F QuadControl::LateralPositionControl(V3F posCmd, V3F velCmd, V3F pos, V3F vel
 
 	////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
 
-
+	velCmd.constrain(-maxSpeedXY, maxSpeedXY);
+	V3F posErr = posCmd - pos;
+	V3F velErr = velCmd - vel;
+	accelCmd = accelCmdFF + (kpPosXY * posErr) + (kpVelXY * velErr); //z compent is zero, so let's ignore use kpPosXY/kpVelXY for pos.z/vel.z as well
+	accelCmd.constrain(-maxAccelXY, maxAccelXY);
+	accelCmd.z = 0;
 
 	/////////////////////////////// END STUDENT CODE ////////////////////////////
 
